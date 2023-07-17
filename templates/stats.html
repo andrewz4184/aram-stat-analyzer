@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Player Stats</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .profile-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            z-index: 0;
+        }
+
+        .profile-icon {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .profile-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index:1;
+        }
+
+        .summoner-level {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            transform: translate(150%, 50%);
+            background-color: #c7c5c5;
+            border-radius: 10px;
+            width: 25px;
+            height: 30px;
+            line-height: 25px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 13px;
+            color: #000;
+            z-index: 2;
+        }
+
+        .username {
+            margin-left: 10px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        th {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-icon">
+            <img src="https://raw.communitydragon.org/13.13/game/assets/ux/summonericons/profileicon{{ pfp }}.png" alt="Profile Picture">
+            <div class="summoner-level">{{ lvl }}</div>
+        </div>
+        <div class="username">
+            <h2>{{ username }}'s ARAM Statistics</h2>
+            <p>Summoner Level: {{ lvl }}</p>
+        </div>
+    </div>
+    
+    <h3>Champions:</h3>
+    <table>
+        <tr>
+            <th onclick="sortTable(0)">Champion</th>
+            <th onclick="sortTable(1)">Win Rate</th>
+            <th onclick="sortTable(2)">Average K/D</th>
+            <th onclick="sortTable(3)">Average Damage</th>
+            <th onclick="sortTable(4)">Number of Games</th>
+        </tr>
+        {% for key, value in stats.items() %}
+        <tr>
+            <td>
+                <img src="https://ddragon.leagueoflegends.com/cdn/13.13.1/img/champion/{{ key }}.png" alt="{{ key }}" height="30">
+                {{ key }}
+            </td>
+            <td>{{ value.average_win }}</td>
+            <td>{{ '%.2f' % value.average_kd }}</td>
+            <td>{{ value.average_dmg }}</td>
+            <td>{{ value.num_games }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <script>
+        function sortTable(columnIndex) {
+            let table, rows, switching, i, x, y, shouldSwitch, direction;
+            table = document.querySelector("table");
+            switching = true;
+            direction = "desc";
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("td")[columnIndex];
+                    y = rows[i + 1].getElementsByTagName("td")[columnIndex];
+                    if (direction === "asc" && parseFloat(x.innerHTML) > parseFloat(y.innerHTML)) {
+                        shouldSwitch = true;
+                        break;
+                    } else if (direction === "desc" && parseFloat(x.innerHTML) < parseFloat(y.innerHTML)) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                }
+            }
+            if (direction === "desc") {
+                direction = "asc";
+            } else {
+                direction = "desc";
+            }
+        }
+    </script>
+</body>
+</html>
