@@ -3,6 +3,9 @@ import requests
 
 api_key = "RGAPI-f90e949d-d7d7-4a8e-81b1-108399607fa8"
 app = Flask(__name__, static_folder='static')
+port = int(os.environ.get("PORT", 5000))
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=port)
 
 def sort_an_array(input):
     for i in range(len(input)):
