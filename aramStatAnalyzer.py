@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 import requests
+import os
 
 api_key = "RGAPI-f90e949d-d7d7-4a8e-81b1-108399607fa8"
 app = Flask(__name__, static_folder='static')
