@@ -1,1 +1,1 @@
-web: python aramStatAnalyzer.py
+python aramStatAnalyzer.py
