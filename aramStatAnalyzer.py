@@ -1,9 +1,12 @@
 from flask import Flask, render_template, request
 import requests
+from flask_frozen import Freezer
+import sys
 
 
 api_key = "RGAPI-f90e949d-d7d7-4a8e-81b1-108399607fa8"
 app = Flask(__name__)
+freezer = Freezer(app)  # Initialize the Freezer
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -135,6 +138,10 @@ def dmg(puuid, match_data):
 
 
 if __name__ == '__main__':
-    app.run()
+    # Use `freezer.freeze()` to generate the static files
+    if len(sys.argv) > 1 and sys.argv[1] == "build":
+        freezer.freeze()
+    else:
+        app.run()
 
 
