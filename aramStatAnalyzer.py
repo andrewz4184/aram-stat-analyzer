@@ -1,24 +1,25 @@
 from flask import Flask, render_template, request
 import requests
 
-api_key = "RGAPI-f90e949d-d7d7-4a8e-81b1-108399607fa8"
+api_key = "RGAPI-468541bf-a0f9-41bd-a7d3-5a44b0624362"
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         name = request.form['name']
+        tag = request.form['tag']
         print(name)
-        region = "na1"
-        api_url = f"https://{region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{name}"
+        region = "americas" 
+        api_url = f"https://{region}.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{name}/{tag}"
         api_url += f'?api_key={api_key}'
         print(api_url)
         resp = requests.get(api_url)
         player_info = resp.json()
         print(player_info)
         player_puuid = player_info['puuid']
-        pfp_id = player_info['profileIconId']
-        summoner_lvl = player_info['summonerLevel']
+        
+       
 
 
         start = 0
@@ -91,7 +92,7 @@ def index():
             }
 
 
-        return render_template('stats.html', username=name, stats=averages,pfp = pfp_id,lvl = summoner_lvl)
+        return render_template('stats.html', username=name, stats=averages)
 
 
     return render_template('index.html')
