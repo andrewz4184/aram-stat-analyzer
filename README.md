@@ -5,10 +5,10 @@ A full-stack web application designed to analyze and display statistics for play
 Key Features
 
 Player Data Analysis: Retrieve and analyze statistics from up to 1000 matches per player.
+
 Real-Time Image Loading: Dynamically source and display champion and item images to enhance user experience.
+
 API Integration: Utilized Riot Games API for data retrieval, with optimized requests adhering to rate limits (50 calls/minute).
-Challenges and Limitations
-Due to recent changes in the Riot API, some features were affected, requiring updates to the codebase. Additionally, the free developer key provided by Riot has stringent limitations, leading to potential long runtimes or errors when analyzing players with extensive match histories.
 
 Technologies Used
 
